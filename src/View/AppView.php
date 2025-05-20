@@ -38,5 +38,11 @@ class AppView extends UIView
     public function initialize(): void
     {
         parent::initialize();
+
+        // Se in uso il layout di bootstrapUI, imposta il default.php template relativo a bootstrap.
+        if($this->getLayout() === 'BootstrapUI.default')
+        {
+            $this->setLayout('boostrap-ui/default');
+        }
     }
 }
