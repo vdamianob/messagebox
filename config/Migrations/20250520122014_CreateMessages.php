@@ -14,7 +14,7 @@ class CreateMessages extends AbstractMigration
      */
     public function change(): void
     {
-$table = $this->table('messages');
+        $table = $this->table('messages');
 
         $table->addColumn('sender_id', 'integer', [
             'null' => true,
