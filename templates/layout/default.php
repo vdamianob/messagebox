@@ -1,60 +1,124 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       https://opensource.org/licenses/mit-license.php MIT License
- * @var \App\View\AppView $this
+ * @var \Cake\View\View $this
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
+use Cake\Core\Configure;
 
-    <?= 
-        // $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']);
-        $this->Html->css('BootstrapUI.bootstrap.min');
-        $this->Html->css(['BootstrapUI./font/bootstrap-icons', 'BootstrapUI./font/bootstrap-icon-sizes']);
-        $this->Html->script(['BootstrapUI.popper.min', 'BootstrapUI.bootstrap.min']);
+/**
+ * Default `html` block.
+ */
+if (!$this->fetch('html')) {
+    $this->start('html');
+    if (Configure::check('App.language')) {
+        printf('<html lang="%s">', Configure::read('App.language'));
+    } else {
+        echo '<html>';
+    }
+    $this->end();
+}
+
+/**
+ * Default `title` block.
+ */
+if (!$this->fetch('title')) {
+    $this->start('title');
+    echo Configure::read('App.title');
+    $this->end();
+}
+
+/**
+ * Default `footer` block.
+ */
+if (!$this->fetch('tb_footer')) {
+    $this->start('tb_footer');
+    if (Configure::check('App.title')) {
+        printf('&copy;%s %s', date('Y'), Configure::read('App.title'));
+    } else {
+        printf('&copy;%s', date('Y'));
+    }
+    $this->end();
+}
+
+/**
+ * Default `body` block.
+ */
+$this->prepend(
+    'tb_body_attrs',
+    ' class="' . implode(' ', [h($this->request->getParam('controller')), h($this->request->getParam('action'))]) . '" '
+);
+if (!$this->fetch('tb_body_start')) {
+    $this->start('tb_body_start');
+    echo '<body' . $this->fetch('tb_body_attrs') . '>';
+    $this->end();
+}
+/**
+ * Default `flash` block.
+ */
+if (!$this->fetch('tb_flash')) {
+    $this->start('tb_flash');
+    echo $this->Flash->render();
+    $this->end();
+}
+if (!$this->fetch('tb_body_end')) {
+    $this->start('tb_body_end');
+    echo '</body>';
+    $this->end();
+}
+
+/**
+ * Prepend `meta` block with `author` and `favicon`.
+ */
+if (Configure::check('App.author')) {
+    $this->prepend(
+        'meta',
+        $this->Html->meta('author', null, ['name' => 'author', 'content' => Configure::read('App.author')])
+    );
+}
+$this->prepend('meta', $this->Html->meta('favicon.ico', '/favicon.ico', ['type' => 'icon']));
+
+/**
+ * Prepend `css` block with Bootstrap stylesheets
+ * Change to bootstrap.min to use the compressed version
+ */
+if (Configure::read('debug')) {
+    $this->prepend('css', $this->Html->css(['BootstrapUI.bootstrap']));
+} else {
+    $this->prepend('css', $this->Html->css(['BootstrapUI.bootstrap.min']));
+}
+$this->prepend(
+    'css',
+    $this->Html->css(['BootstrapUI./font/bootstrap-icons', 'BootstrapUI./font/bootstrap-icon-sizes'])
+);
+
+/**
+ * Prepend `script` block with Popper and Bootstrap scripts
+ * Change popper.min and bootstrap.min to use the compressed version
+ */
+if (Configure::read('debug')) {
+    $this->prepend('script', $this->Html->script(['BootstrapUI.popper', 'BootstrapUI.bootstrap']));
+} else {
+    $this->prepend('script', $this->Html->script(['BootstrapUI.popper.min', 'BootstrapUI.bootstrap.min']));
+}
+
+?>
+<!doctype html>
+<?= $this->fetch('html') ?>
+    <head>
+        <?= $this->Html->charset() ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title><?= h($this->fetch('title')) ?></title>
+        <?= $this->fetch('meta') ?>
+        <?= $this->fetch('css') ?>
+    </head>
+
+    <?php
+    echo $this->fetch('tb_body_start');
+    echo $this->fetch('tb_flash');
+    echo $this->fetch('content');
+    echo $this->fetch('tb_footer');
+    echo $this->fetch('script');
+    echo $this->fetch('tb_body_end');
     ?>
 
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
-</head>
-<body>
-    <nav class="top-nav">
-        <div class="top-nav-title">
-            <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
-        </div>
-        <div class="top-nav-links">
-            <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/">Documentation</a>
-            <a target="_blank" rel="noopener" href="https://api.cakephp.org/">API</a>
-        </div>
-    </nav>
-    <main class="main">
-        <div class="container">
-            <?= $this->Flash->render() ?>
-            <?= $this->fetch('content') ?>
-        </div>
-    </main>
-    <footer>
-    </footer>
-</body>
 </html>
