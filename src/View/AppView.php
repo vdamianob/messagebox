@@ -42,7 +42,7 @@ class AppView extends UIView
         // Se in uso il layout di bootstrapUI, imposta il default.php template relativo a bootstrap.
         if($this->getLayout() === 'BootstrapUI.default')
         {
-            $this->setLayout('bootstrap-ui'.DS.'default');
+            $this->setLayout('TwitterBootstrap'.DS.'default');
         }
     }
 }
