@@ -19,7 +19,6 @@
         <th scope="col"><?= $this->Paginator->sort('role') ?></th>
         <th scope="col"><?= $this->Paginator->sort('status') ?></th>
         <th scope="col"><?= $this->Paginator->sort('username') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('avatar_img_path') ?></th>
         <th scope="col"><?= $this->Paginator->sort('created') ?></th>
         <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
         <th scope="col"><?= $this->Paginator->sort('last_login') ?></th>
@@ -35,7 +34,6 @@
             <td><?= h($user->role) ?></td>
             <td><?= h($user->status) ?></td>
             <td><?= h($user->username) ?></td>
-            <td><?= h($user->avatar_img_path) ?></td>
             <td><?= h($user->created) ?></td>
             <td><?= h($user->modified) ?></td>
             <td><?= h($user->last_login) ?></td>
