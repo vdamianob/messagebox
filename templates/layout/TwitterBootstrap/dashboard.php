@@ -14,7 +14,7 @@ $this->prepend(
 $this->start('tb_body_start');
 ?>
 <body <?= $this->fetch('tb_body_attrs') ?>>
-    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <header class="navbar navbar-light sticky-top bg-light flex-md-nowrap p-0 shadow">
         <?= $this->Html->link(
             Configure::read('App.title'),
             '/',
