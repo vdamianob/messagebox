@@ -22,7 +22,8 @@ $this->start('tb_body_start');
         ) ?>
         <ul class="navbar-nav px-3 me-auto">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'],['class' => 'nav-link']) ?>
+                <!-- <a class="nav-link" href="logout">Sign out</a> -->
             </li>
         </ul>
         <button
