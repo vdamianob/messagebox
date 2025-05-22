@@ -15,7 +15,12 @@
 <?php $this->assign('tb_sidebar', '<ul class="nav flex-column">' . $this->fetch('tb_actions') . '</ul>'); ?>
 
 <div class="users view large-9 medium-8 columns content">
-    <h3><?= h($user->email) ?></h3>
+    <h3>
+        <?= h($user->email);
+            if ($this->Identity->can('edit', $user)): 
+                echo $this->Html->link(__('Edit'), ['action' => 'edit', $user->id], ['class' => 'bi bi-pencil btn btn-sm btn-outline-primary mx-2']);
+            endif; ?>
+    </h3>
     <div class="table-responsive">
         <table class="table table-striped">
             <tr>
@@ -34,10 +39,12 @@
                 <th scope="row"><?= __('Username') ?></th>
                 <td><?= h($user->username) ?></td>
             </tr>
-            <tr>
-                <th scope="row"><?= __('Avatar Img Path') ?></th>
-                <td><?= h($user->avatar_img_path) ?></td>
-            </tr>
+            <?php if ($this->Identity->can('changePassword', $user)): ?>
+                <tr>
+                    <th scope="row"><?= __('Password') ?></th>
+                    <td><?php echo $this->Html->link(__('Change password'), ['action' => 'changePassword', $user->id], ['class' => '']); ?></td>
+                </tr>
+            <?php endif; ?>
             <tr>
                 <th scope="row"><?= __('Id') ?></th>
                 <td><?= $this->Number->format($user->id) ?></td>
