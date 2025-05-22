@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Auth\DefaultPasswordHasher;
+
 /**
  * Users Controller
  *
@@ -153,37 +155,42 @@ class UsersController extends AppController
     }
 
     public function changePassword($id = null)
+{
+    $user = $this->Users->get($id, [
+        'contain' => [],
+    ]);
+
+    $this->Authorization->authorize($user);
+
+    if ($this->request->is(['patch', 'post', 'put']))
     {
-        $user = $this->Users->get($id, [
-            'contain' => [],
-        ]);
+        $data = $this->request->getData();
+        $currentUserId = $this->request->getAttribute('identity')->get('id');
 
-        $this->Authorization->authorize($user);
-        
-        // if ((int)$this->Authentication->getIdentity()->get('id') !== (int)$id)
-        // {
-        //     throw new ForbiddenException(__('You are not authorized to change this password.'));
-        // }
-
-        if ($this->request->is(['patch', 'post', 'put']))
+        // Solo se è la password dell'utente in sessione, viene verificata la vecchia password
+        // quindi ad esempio un amministratore può cambiargli la password senza inserire la vecchia
+        if ((int)$currentUserId === (int)$id)
         {
-            $data = $this->request->getData();
-            // Verifica la vecchia password
-            if ((new DefaultPasswordHasher)->check($data['old_password'], $user->password))
+            if (!(new DefaultPasswordHasher)->check($data['old_password'], $user->password))
             {
-                // Imposta la nuova password manualmente
-                $user->password = $data['new_password'];
-                if ($this->Users->save($user)) {
-                    $this->Flash->success(__('Password updated successfully.'));
-                    return $this->redirect(['action' => 'index']);
-                }
-                $this->Flash->error(__('Unable to update the password. Please try again.'));
-            } else {
                 $this->Flash->error(__('Old password is incorrect.'));
-            }   
+                return $this->redirect(['action' => 'changePassword', $user->id]);
+            }
         }
-        $this->set(compact('user'));
+
+        // Imposta la nuova password manualmente
+        $user->password = $data['new_password'];
+
+        if ($this->Users->save($user)) {
+            $this->Flash->success(__('Password updated successfully.'));
+            return $this->redirect(['action' => 'view', $user->id]);
+        }
+
+        $this->Flash->error(__('Unable to update the password. Please try again.'));
     }
+
+    $this->set(compact('user'));
+}
 
     private function getCurrSessId(): int
     {

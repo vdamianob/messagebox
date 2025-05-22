@@ -18,8 +18,19 @@
                     <?= $this->Form->control('old_password', [
                         'type' => 'password',
                         'label' => 'Current Password',
+                        'class' => 'form-control ',
+                        'required' => true,
+                        'disabled' => $this->Identity->isAdmin() && !$this->Identity->isMe($user)
+                    ]) ?>
+                </div>
+
+                <div class="mb-3">
+                    <?= $this->Form->control('old_password_repeated', [
+                        'type' => 'password',
+                        'label' => 'Repeat Password',
                         'class' => 'form-control',
-                        'required' => true
+                        'required' => true,
+                        'disabled' => $this->Identity->isAdmin() && !$this->Identity->isMe($user)
                     ]) ?>
                 </div>
                 
