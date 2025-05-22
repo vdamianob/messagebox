@@ -4,6 +4,9 @@
  */
 use Cake\Core\Configure;
 
+use Cake\Routing\Router;
+use Cake\Utility\Inflector;
+
 $this->Html->css('BootstrapUI.dashboard', ['block' => true]);
 $this->prepend(
     'tb_body_attrs',
@@ -60,6 +63,42 @@ if (!$this->fetch('tb_flash')) {
     }
     $this->end();
 }
+
+$this->Breadcrumbs->setTemplates([
+    'wrapper' => '<nav aria-label="breadcrumb"><ol class="breadcrumb">{{content}}</ol></nav>',
+    'item' => '<li class="breadcrumb-item"><a href="{{url}}">{{title}}</a></li>',
+    'itemWithoutLink' => '<li class="breadcrumb-item active" aria-current="page">{{title}}</li>',
+]);
+
+//parte che stampa la breadcrumbs
+$this->Breadcrumbs->add('Home', '/');
+
+$controller = $this->request->getParam('controller');
+$action = $this->request->getParam('action');
+
+// Gestione dinamica Users e Messages
+if ($controller === 'Users') {
+    $this->Breadcrumbs->add('Users', ['controller' => 'Users', 'action' => 'index']);
+
+    if (!empty($user)) {
+        $this->Breadcrumbs->add(
+            h($user->username),
+            ['controller' => 'Users', 'action' => 'view', $user->id]
+        );
+    }
+} elseif ($controller === 'Messages') {
+    $this->Breadcrumbs->add('Messages', ['controller' => 'Messages', 'action' => 'index']);
+
+    if (!empty($message)) {
+        $this->Breadcrumbs->add(
+            'Message #' . $message->id,
+            ['controller' => 'Messages', 'action' => 'view', $message->id]
+        );
+    }
+}
+echo $this->Breadcrumbs->render();
+//fine breadcrumbds
+
 $this->end();
 
 $this->start('tb_body_end');

@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\User $user
  */
 ?>
+<?php $this->extend('/layout/TwitterBootstrap/dashboard'); ?>
 
 <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6">
