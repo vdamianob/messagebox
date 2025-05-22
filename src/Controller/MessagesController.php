@@ -52,21 +52,57 @@ class MessagesController extends AppController
      */
     public function add()
     {
-        $this->Authorization->skipAuthorization();
         $message = $this->Messages->newEmptyEntity();
+        $this->Authorization->skipAuthorization();
+        // if ($this->request->is('post')) {
+        //     $message = $this->Messages->patchEntity($message, $this->request->getData());
+        //     if ($this->Messages->save($message)) {
+        //         $this->Flash->success(__('The message has been saved.'));
+
+        //         return $this->redirect(['action' => 'index']);
+        //     }
+        //     $this->Flash->error(__('The message could not be saved. Please, try again.'));
+        // }
+        // $users = $this->Messages->Sender->find('list', ['limit' => 200])->all();
+        // $users = $this->Messages->Receiver->find('list', ['limit' => 200])->all();
+        // $messages = $this->Messages->ParentMessage->find('list', ['limit' => 200])->all();
+        // $this->set(compact('message', 'users', 'messages'));
+
+
         if ($this->request->is('post')) {
-            $message = $this->Messages->patchEntity($message, $this->request->getData());
+            $data = $this->request->getData() + [
+                'sender_id' => $this->request->getAttribute('identity')->id,
+            ];
+
+            // inserimento id del destinatario
+            if (!empty($data['receiver_username'])) {
+                $this->loadModel('Users');
+    
+                $receiver = $this->Users->find()
+                    ->where(['username' => $data['receiver_username']])
+                    ->first();
+    
+                if ($receiver) {
+                    $data['receiver_id'] = $receiver->id;
+                } else {
+                    $this->Flash->error(__('Receiver username not found.'));
+                    return $this->redirect($this->referer());
+                }
+            } else {
+                $this->Flash->error(__('Empty username.'));
+                return $this->redirect($this->referer());
+            }
+
+            $message = $this->Messages->patchEntity($message, $data);
+            //debug($message->getErrors());
             if ($this->Messages->save($message)) {
-                $this->Flash->success(__('The message has been saved.'));
+                $this->Flash->success(__('The message has been sent.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The message could not be saved. Please, try again.'));
+            $this->Flash->error(__('The message could not be sent. Please, try again.'));
         }
-        $users = $this->Messages->Sender->find('list', ['limit' => 200])->all();
-        $users = $this->Messages->Receiver->find('list', ['limit' => 200])->all();
-        $messages = $this->Messages->ParentMessage->find('list', ['limit' => 200])->all();
-        $this->set(compact('message', 'users', 'messages'));
+        $this->set(compact('message'));
     }
 
     /**

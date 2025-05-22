@@ -23,7 +23,8 @@
         <legend><?= __('New Message') ?></legend>
         <?php
             //echo $this->Form->control('sender_id', ['type' => 'text']);
-            echo $this->Form->control('receiver_id', ['options' => $users, 'empty' => true, 'type' => 'text']);
+            echo $this->Form->control('receiver_username', ['required' => true]);
+            //echo $this->Form->control('receiver_id', ['options' => $users, 'empty' => true, 'type' => 'text', 'required' => true]);
             //echo $this->Form->control('reply_to_id', ['options' => $messages, 'empty' => true]);
             //echo $this->Form->control('status');
             //echo $this->Form->control('read');

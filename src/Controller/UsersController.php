@@ -97,6 +97,7 @@ class UsersController extends AppController
     {
         $this->Authorization->skipAuthorization();
         $user = $this->Users->newEmptyEntity();
+        
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
