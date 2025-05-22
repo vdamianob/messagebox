@@ -19,11 +19,31 @@ class MessagesController extends AppController
     public function index()
     {
         $this->Authorization->skipAuthorization();
-        $this->paginate = [
-            // 'contain' => ['Users', 'Messages'],
-            'contain' => ['Sender', 'Receiver', 'ParentMessage'],
-        ];
-        $messages = $this->paginate($this->Messages);
+
+        // $this->paginate = [
+        //     // 'contain' => ['Users', 'Messages'],
+        //     'contain' => ['Sender', 'Receiver', 'ParentMessage'],
+        // ];
+        // $messages = $this->paginate($this->Messages);
+        
+        $userId = $this->request->getAttribute("identity")->id;
+        $query = $this->Messages->find()
+            ->contain(['Sender', 'Receiver'])
+            ->where([
+                'OR' => [
+                    'Messages.sender_id' => $userId,
+                    'Messages.receiver_id' => $userId,
+                ]
+            ])
+            ->order(['Messages.created' => 'DESC']);
+    
+        $messages = $this->paginate($query);
+    
+        // inserisce il suffisso (Me) affianco all'username (sender/receiver) se è l'utente della sessione corrente
+        foreach ($messages as $message) {
+            $this->addMe($userId, $message);
+            print_r($message->sender->username);
+        }
 
         $this->set(compact('messages'));
     }
@@ -149,5 +169,16 @@ class MessagesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+        private function addMe($userId, $message) 
+    {
+        if ($message->sender_id == $userId && isset($message->sender->username)) {
+            $message->sender->username .= ' (Me)';
+        }
+        if ($message->receiver_id == $userId && isset($message->receiver->username)) {
+            $message->receiver->username .= ' (Me)';
+        }
+        return $message;
     }
 }

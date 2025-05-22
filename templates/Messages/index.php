@@ -16,30 +16,21 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('title') ?></th>
         <th scope="col"><?= $this->Paginator->sort('sender_id') ?></th>
         <th scope="col"><?= $this->Paginator->sort('receiver_id') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('reply_to_id') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('read') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('title') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('deleted') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('sent') ?></th>
         <th scope="col" class="actions"><?= __('Actions') ?></th>
     </tr>
     </thead>
     <tbody>
         <?php foreach ($messages as $message) : ?>
         <tr>
-            <td><?= $this->Number->format($message->id) ?></td>
-            <td><?= $this->Number->format($message->sender_id) ?></td>
-            <td><?= $message->has('user') ? $this->Html->link($message->user->email, ['controller' => 'Users', 'action' => 'view', $message->user->id]) : '' ?></td>
-            <td><?= $message->has('message') ? $this->Html->link($message->message->title, ['controller' => 'Messages', 'action' => 'view', $message->message->id]) : '' ?></td>
-            <td><?= h($message->status) ?></td>
-            <td><?= h($message->read) ?></td>
             <td><?= h($message->title) ?></td>
+            <td><?= h($message->sender->username) ?></td>
+            <td><?= h($message->receiver->username) ?></td>
             <td><?= h($message->created) ?></td>
-            <td><?= h($message->deleted) ?></td>
+
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $message->id], ['title' => __('View'), 'class' => 'btn-sm btn-secondary']) ?>
                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $message->id], ['title' => __('Edit'), 'class' => 'btn-sm btn-secondary']) ?>
