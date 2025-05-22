@@ -52,6 +52,7 @@ class MessagesController extends AppController
      */
     public function add()
     {
+        $this->Authorization->skipAuthorization();
         $message = $this->Messages->newEmptyEntity();
         if ($this->request->is('post')) {
             $message = $this->Messages->patchEntity($message, $this->request->getData());
