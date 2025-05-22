@@ -20,16 +20,16 @@
 <div class="messages form content">
     <?= $this->Form->create($message) ?>
     <fieldset>
-        <legend><?= __('Add Message') ?></legend>
+        <legend><?= __('New Message') ?></legend>
         <?php
-            echo $this->Form->control('sender_id', ['type' => 'text']);
+            //echo $this->Form->control('sender_id', ['type' => 'text']);
             echo $this->Form->control('receiver_id', ['options' => $users, 'empty' => true, 'type' => 'text']);
-            echo $this->Form->control('reply_to_id', ['options' => $messages, 'empty' => true]);
-            echo $this->Form->control('status');
-            echo $this->Form->control('read');
+            //echo $this->Form->control('reply_to_id', ['options' => $messages, 'empty' => true]);
+            //echo $this->Form->control('status');
+            //echo $this->Form->control('read');
             echo $this->Form->control('title');
             echo $this->Form->control('body');
-            echo $this->Form->control('deleted', ['empty' => true]);
+            //echo $this->Form->control('deleted', ['empty' => true]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
