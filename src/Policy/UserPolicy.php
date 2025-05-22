@@ -79,4 +79,27 @@ class UserPolicy
     {
         return true;
     }
+
+    /**
+     * Check if $user can change an User password
+     *
+     * @param \Authorization\IdentityInterface $user The user.
+     * @param \App\Model\Entity\User $resource The target resource user.
+     * @return bool
+     */
+    public function canChangePassword(IdentityInterface $user, User $resource)
+    {
+        // Se l'utente è admin
+        if (in_array($user->get('role'), ['admin', 'superadmin'])) {
+            return true;
+        }
+
+        // Se l'utente è lui stesso
+        if ($resource->id === $user->getIdentifier()) {
+            return true;
+        }
+
+        // Altrimenti, accesso negato
+        return false;
+    }
 }
