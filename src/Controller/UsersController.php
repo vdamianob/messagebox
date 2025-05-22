@@ -66,7 +66,6 @@ class UsersController extends AppController
     {
         $this->Authorization->skipAuthorization();
         $users = $this->paginate($this->Users);
-
         $this->set(compact('users'));
     }
 
@@ -189,5 +188,16 @@ class UsersController extends AppController
     private function getCurrSessId(): int
     {
         return $this->request->getAttribute("identity");
+    }
+
+    private function addMe($userId, $message) 
+    {
+        if ($message->sender == $userId && isset($message->sender_user->username)) {
+            $message->sender_user->username .= ' (Me)';
+        }
+        if ($message->receiver == $userId && isset($message->receiver_user->username)) {
+            $message->receiver_user->username .= ' (Me)';
+        }
+        return $message;
     }
 }
