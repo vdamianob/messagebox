@@ -152,4 +152,42 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function changePassword($id = null)
+    {
+        $user = $this->Users->get($id, [
+            'contain' => [],
+        ]);
+
+        $this->Authorization->authorize($user);
+        
+        // if ((int)$this->Authentication->getIdentity()->get('id') !== (int)$id)
+        // {
+        //     throw new ForbiddenException(__('You are not authorized to change this password.'));
+        // }
+
+        if ($this->request->is(['patch', 'post', 'put']))
+        {
+            $data = $this->request->getData();
+            // Verifica la vecchia password
+            if ((new DefaultPasswordHasher)->check($data['old_password'], $user->password))
+            {
+                // Imposta la nuova password manualmente
+                $user->password = $data['new_password'];
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('Password updated successfully.'));
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('Unable to update the password. Please try again.'));
+            } else {
+                $this->Flash->error(__('Old password is incorrect.'));
+            }   
+        }
+        $this->set(compact('user'));
+    }
+
+    private function getCurrSessId(): int
+    {
+        return $this->request->getAttribute("identity");
+    }
 }
