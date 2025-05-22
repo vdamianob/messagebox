@@ -38,7 +38,7 @@ class MessagesController extends AppController
     public function view($id = null)
     {
         $message = $this->Messages->get($id, [
-            'contain' => ['Users', 'Messages'],
+            'contain' => ['Sender', 'Receiver', 'ParentMessage'],
         ]);
         $this->Authorization->authorize($message);
 
