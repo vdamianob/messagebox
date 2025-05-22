@@ -18,6 +18,7 @@ class MessagesController extends AppController
      */
     public function index()
     {
+        $this->Authorization->skipAuthorization();
         $this->paginate = [
             // 'contain' => ['Users', 'Messages'],
             'contain' => ['Sender', 'Receiver', 'ParentMessage'],
@@ -39,6 +40,7 @@ class MessagesController extends AppController
         $message = $this->Messages->get($id, [
             'contain' => ['Users', 'Messages'],
         ]);
+        $this->Authorization->authorize($message);
 
         $this->set(compact('message'));
     }
