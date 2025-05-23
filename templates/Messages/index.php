@@ -26,7 +26,16 @@
     <tbody>
         <?php foreach ($messages as $message) : ?>
         <tr>
-            <td><?= h($message->title) ?></td>
+            <td>
+                <?= h($message->title) ?>
+                <?php if (!$message->read && $message->receiver_id === $this->request->getAttribute('identity')->id): ?>
+                    <?php 
+                        echo $this->Html->badge('NEW!', [
+                            'class' => 'rounded-pill bg-primary',
+                        ]);
+                    ?>
+                <?php endif; ?>
+            </td>
             <td><?= h($message->sender->username) ?></td>
             <td><?= h($message->receiver->username) ?></td>
             <td><?= h($message->created) ?></td>
