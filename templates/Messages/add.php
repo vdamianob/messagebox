@@ -17,19 +17,23 @@
 <?php $this->end(); ?>
 <?php $this->assign('tb_sidebar', '<ul class="nav flex-column">' . $this->fetch('tb_actions') . '</ul>'); ?>
 
-<div class="messages form content">
-    <?= $this->Form->create($message) ?>
-    <fieldset>
-        <legend><?= __('New Message') ?></legend>
-        <?php
-            //echo $this->Form->control('sender_id', ['type' => 'text']);
-            echo $this->Form->control('receiver_username', ['required' => true]);
-            //echo $this->Form->control('read');
-            echo $this->Form->control('title');
-            echo $this->Form->control('body');
-            //echo $this->Form->control('deleted', ['empty' => true]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="messages form content">
+            <?= $this->Form->create($message) ?>
+            <fieldset>
+                <legend><?= __('New Message') ?></legend>
+                <?php
+                    //echo $this->Form->control('sender_id', ['type' => 'text']);
+                    echo $this->Form->control('receiver_username', ['required' => true]);
+                    //echo $this->Form->control('read');
+                    echo $this->Form->control('title');
+                    echo $this->Form->control('body');
+                    //echo $this->Form->control('deleted', ['empty' => true]);
+                ?>
+            </fieldset>
+            <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary mt-3']) ?>
+            <?= $this->Form->end() ?>
+        </div>
+    </div>
 </div>
