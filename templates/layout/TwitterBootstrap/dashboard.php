@@ -17,36 +17,11 @@ $this->prepend(
 $this->start('tb_body_start');
 ?>
 <body <?= $this->fetch('tb_body_attrs') ?>>
-    <header class="navbar navbar-light sticky-top bg-light flex-md-nowrap p-0 shadow">
-        <?= $this->Html->link(
-            Configure::read('App.title'),
-            '/',
-            ['class' => 'navbar-brand col-md-3 col-lg-2 me-0 px-3']
-        ) ?>
-        <button
-            class="navbar-toggler position-absolute d-md-none collapsed" type="button"
-            data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
-            aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation"
-        >
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"> -->
-    </header>
+    <?= $this->element('navbar') ?>
 
     <div class="container-fluid">
         <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" style="">
-                <div class="position-sticky pt-3">
-                    <?= $this->fetch('tb_sidebar') ?>
-                    
-                    <div class="border-top my-3"></div>
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link text-danger']) ?>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+            <?= $this->element('sidebar') ?>
 
             <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center
@@ -65,41 +40,8 @@ if (!$this->fetch('tb_flash')) {
     $this->end();
 }
 
-$this->Breadcrumbs->setTemplates([
-    'wrapper' => '<nav aria-label="breadcrumb"><ol class="breadcrumb">{{content}}</ol></nav>',
-    'item' => '<li class="breadcrumb-item"><a href="{{url}}">{{title}}</a></li>',
-    'itemWithoutLink' => '<li class="breadcrumb-item active" aria-current="page">{{title}}</li>',
-]);
-
-//parte che stampa la breadcrumbs
-$this->Breadcrumbs->add('Home', '/');
-
-$controller = $this->request->getParam('controller');
-$action = $this->request->getParam('action');
-
-// Gestione dinamica Users e Messages
-if ($controller === 'Users') {
-    $this->Breadcrumbs->add('Users', ['controller' => 'Users', 'action' => 'index']);
-
-    if (!empty($user)) {
-        $this->Breadcrumbs->add(
-            h($user->username),
-            ['controller' => 'Users', 'action' => 'view', $user->id]
-        );
-    }
-} elseif ($controller === 'Messages') {
-    $this->Breadcrumbs->add('Messages', ['controller' => 'Messages', 'action' => 'index']);
-
-    if (!empty($message)) {
-        $this->Breadcrumbs->add(
-            '<em>"' . h($message->title) . '"</em>',
-            ['controller' => 'Messages', 'action' => 'view', $message->id],
-            ['escape' => false]
-        );
-    }
-}
-echo $this->Breadcrumbs->render();
-//fine breadcrumbds
+// Includi l'elemento breadcrumbs
+echo $this->element('breadcrumbs');
 
 $this->end();
 
