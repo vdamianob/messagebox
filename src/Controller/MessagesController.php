@@ -42,7 +42,7 @@ class MessagesController extends AppController
         // inserisce il suffisso (Me) affianco all'username (sender/receiver) se è l'utente della sessione corrente
         foreach ($messages as $message) {
             $this->addMe($userId, $message);
-            print_r($message->sender->username);
+            //print_r($message->sender->username);
         }
 
         $this->set(compact('messages'));
