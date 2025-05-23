@@ -23,12 +23,6 @@ $this->start('tb_body_start');
             '/',
             ['class' => 'navbar-brand col-md-3 col-lg-2 me-0 px-3']
         ) ?>
-        <ul class="navbar-nav px-3 me-auto">
-            <li class="nav-item text-nowrap">
-                <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'],['class' => 'nav-link']) ?>
-                <!-- <a class="nav-link" href="logout">Sign out</a> -->
-            </li>
-        </ul>
         <button
             class="navbar-toggler position-absolute d-md-none collapsed" type="button"
             data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
@@ -44,6 +38,13 @@ $this->start('tb_body_start');
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" style="">
                 <div class="position-sticky pt-3">
                     <?= $this->fetch('tb_sidebar') ?>
+                    
+                    <div class="border-top my-3"></div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link text-danger']) ?>
+                        </li>
+                    </ul>
                 </div>
             </nav>
 
