@@ -144,8 +144,11 @@ class MessagesController extends AppController
     public function edit($id = null)
     {
         $message = $this->Messages->get($id, [
-            'contain' => [],
+            'contain' => ['Sender', 'Receiver', 'ParentMessage'],
         ]);
+
+        $this->Authorization->authorize($message);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $message = $this->Messages->patchEntity($message, $this->request->getData());
             if ($this->Messages->save($message)) {
@@ -155,9 +158,9 @@ class MessagesController extends AppController
             }
             $this->Flash->error(__('The message could not be saved. Please, try again.'));
         }
-        $users = $this->Messages->Users->find('list', ['limit' => 200])->all();
-        $messages = $this->Messages->Messages->find('list', ['limit' => 200])->all();
-        $this->set(compact('message', 'users', 'messages'));
+        // $users = $this->Messages->Users->find('list', ['limit' => 200])->all();
+        // $messages = $this->Messages->Messages->find('list', ['limit' => 200])->all();
+        $this->set(compact('message'/*, 'users', 'messages'*/));
     }
 
     /**

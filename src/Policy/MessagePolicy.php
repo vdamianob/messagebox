@@ -34,7 +34,15 @@ class MessagePolicy
 
     public function canEdit(IdentityInterface $user, Message $message)
     {
-        return $message->sender === $user->getIdentifier();
+        //per adesso disabilitato per default. DOvrebbe essere che:
+        //nessuno può modificare i messaggi, a parte gli admin/superadmin, ma solo determinati campi come:
+        //deleted e status.
+        
+        //vecchia regola: solo l'utente proprietario del messaggio poteva modificarlo
+        // return $message->sender_id === $user->getIdentifier();
+
+        //regola attuale: nessuno può modificare il messaggio
+        return false;
     }
 
     /**
