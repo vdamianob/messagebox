@@ -30,8 +30,12 @@
             <td><?= h($user->last_login) ?></td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $user->id], ['title' => __('View'), 'class' => 'btn btn-sm btn-secondary my-1']) ?>
-                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id], ['title' => __('Edit'), 'class' => 'btn btn-sm btn-secondary my-1']) ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'title' => __('Delete'), 'class' => 'btn btn-sm btn-danger my-1']) ?>
+                <?php if ($this->Identity->can('edit', $user)): ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id], ['title' => __('Edit'), 'class' => 'btn btn-sm btn-secondary my-1']) ?>
+                <?php endif; ?>
+                <?php if ($this->Identity->can('delete', $user)): ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'title' => __('Delete'), 'class' => 'btn btn-sm btn-danger my-1']) ?>
+                <?php endif; ?>
             </td>
         </tr>
         <?php endforeach; ?>
