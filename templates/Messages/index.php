@@ -100,8 +100,12 @@
 
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $message->id], ['title' => __('View'), 'class' => 'btn btn-sm btn-secondary my-1']) ?>
-                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $message->id], ['title' => __('Edit'), 'class' => 'btn btn-sm btn-secondary my-1']) ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $message->id], ['confirm' => __('Are you sure you want to delete # {0}?', $message->id), 'title' => __('Delete'), 'class' => 'btn btn-sm btn-danger my-1']) ?>
+                <?php if ($this->Identity->can('edit', $message)): ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $message->id], ['title' => __('Edit'), 'class' => 'btn btn-sm btn-secondary my-1']) ?>
+                <?php endif; ?>
+                <?php if ($this->Identity->can('delete', $message)): ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $message->id], ['confirm' => __('Are you sure you want to delete # {0}?', $message->id), 'title' => __('Delete'), 'class' => 'btn btn-sm btn-danger my-1']) ?>
+                <?php endif; ?>
             </td>
         </tr>
         <?php endforeach; ?>

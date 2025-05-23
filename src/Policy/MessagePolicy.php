@@ -60,7 +60,7 @@ class MessagePolicy
         }
 
         // Se l'utente è il mittente
-        if ($message->sender === $user->getIdentifier()) {
+        if ($message->sender_id === $user->getIdentifier()) {
             return true;
         }
 
