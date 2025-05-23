@@ -81,6 +81,7 @@ class Application extends BaseApplication
         // Load more plugins here
         $this->addPlugin('BootstrapUI');
         $this->addPlugin('Authorization');
+        $this->addPlugin('Search');
     }
 
     /**
