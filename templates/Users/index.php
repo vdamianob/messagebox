@@ -14,30 +14,20 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('role') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('status') ?></th>
         <th scope="col"><?= $this->Paginator->sort('username') ?></th>
+        <th scope="col"><?= $this->Paginator->sort('role') ?></th>
         <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
         <th scope="col"><?= $this->Paginator->sort('last_login') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('deleted') ?></th>
         <th scope="col" class="actions"><?= __('Actions') ?></th>
     </tr>
     </thead>
     <tbody>
         <?php foreach ($users as $user) : ?>
         <tr>
-            <td><?= $this->Number->format($user->id) ?></td>
-            <td><?= h($user->email) ?></td>
-            <td><?= h($user->role) ?></td>
-            <td><?= h($user->status) ?></td>
             <td><?= $this->Html->link(h($user->username), ['action' => 'view', $user->id], ['class' => 'link-dark']) ?></td>
+            <td><?= h($user->role) ?></td>
             <td><?= h($user->created) ?></td>
-            <td><?= h($user->modified) ?></td>
             <td><?= h($user->last_login) ?></td>
-            <td><?= h($user->deleted) ?></td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $user->id], ['title' => __('View'), 'class' => 'btn btn-sm btn-secondary my-1']) ?>
                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id], ['title' => __('Edit'), 'class' => 'btn btn-sm btn-secondary my-1']) ?>
