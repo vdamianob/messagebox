@@ -62,6 +62,12 @@ class MessagesController extends AppController
         ]);
         $this->Authorization->authorize($message);
 
+        // imposta il messaggio tra i letti
+        if ($message->receiver_id === $this->request->getAttribute("identity")->id && !$message->read) {
+            $message->read = true;
+            $this->Messages->save($message);
+        }
+
         $this->set(compact('message'));
     }
 
