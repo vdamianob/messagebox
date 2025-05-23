@@ -75,12 +75,12 @@ class MessagePolicy
         }
 
         // Se l'utente è il mittente
-        if ($message->sender === $user->getIdentifier()) {
+        if ($message->sender_id === $user->getIdentifier()) {
             return true;
         }
 
         // Se l'utente è il destinatario
-        if ($message->receiver === $user->getIdentifier()) {
+        if ($message->receiver_id === $user->getIdentifier()) {
             return true;
         }
 
