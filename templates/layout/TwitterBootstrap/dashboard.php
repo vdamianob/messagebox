@@ -8,6 +8,7 @@ use Cake\Routing\Router;
 use Cake\Utility\Inflector;
 
 $this->Html->css('BootstrapUI.dashboard', ['block' => true]);
+$this->Html->css('custom.css', ['block' => true]); // Aggiunto CSS personalizzato
 $this->prepend(
     'tb_body_attrs',
     ' class="' .

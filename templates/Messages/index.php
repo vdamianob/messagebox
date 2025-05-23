@@ -27,7 +27,7 @@
         <?php foreach ($messages as $message) : ?>
         <tr>
             <td>
-                <?= h($message->title) ?>
+                <?= $this->Html->link(h($message->title), ['action' => 'view', $message->id], ['class' => 'link-dark']) ?>
                 <?php if (!$message->read && $message->receiver_id === $this->request->getAttribute('identity')->id): ?>
                     <?php 
                         echo $this->Html->badge('NEW!', [
@@ -36,8 +36,8 @@
                     ?>
                 <?php endif; ?>
             </td>
-            <td><?= h($message->sender->username) ?></td>
-            <td><?= h($message->receiver->username) ?></td>
+            <td><?= $this->Html->link(h($message->sender->username), ['controller' => 'Users', 'action' => 'view', $message->sender_id], ['class' => 'link-dark']) ?></td>
+            <td><?= $this->Html->link(h($message->receiver->username), ['controller' => 'Users', 'action' => 'view', $message->receiver_id], ['class' => 'link-dark']) ?></td>
             <td><?= h($message->created) ?></td>
 
             <td class="actions">

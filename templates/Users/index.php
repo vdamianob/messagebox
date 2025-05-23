@@ -33,7 +33,7 @@
             <td><?= h($user->email) ?></td>
             <td><?= h($user->role) ?></td>
             <td><?= h($user->status) ?></td>
-            <td><?= h($user->username) ?></td>
+            <td><?= $this->Html->link(h($user->username), ['action' => 'view', $user->id], ['class' => 'link-dark']) ?></td>
             <td><?= h($user->created) ?></td>
             <td><?= h($user->modified) ?></td>
             <td><?= h($user->last_login) ?></td>

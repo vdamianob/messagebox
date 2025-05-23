@@ -1,0 +1,9 @@
+.link-dark {
+    color: #212529 !important; /* colore scuro, quasi nero, come text-dark */
+    text-decoration: none;
+}
+
+.link-dark:hover {
+    color: #0d6efd !important; /* colore primario di Bootstrap */
+    text-decoration: underline;
+}
