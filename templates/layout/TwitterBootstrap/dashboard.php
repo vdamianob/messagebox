@@ -92,8 +92,9 @@ if ($controller === 'Users') {
 
     if (!empty($message)) {
         $this->Breadcrumbs->add(
-            'Message #' . $message->id,
-            ['controller' => 'Messages', 'action' => 'view', $message->id]
+            '<em>"' . h($message->title) . '"</em>',
+            ['controller' => 'Messages', 'action' => 'view', $message->id],
+            ['escape' => false]
         );
     }
 }
