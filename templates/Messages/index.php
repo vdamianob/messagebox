@@ -13,6 +13,16 @@
 <?php $this->end(); ?>
 <?php $this->assign('tb_sidebar', '<ul class="nav flex-column">' . $this->fetch('tb_actions') . '</ul>'); ?>
 
+<?php $this->start('tb_actions_header'); ?>
+<div class="btn-group">
+    <?= $this->Html->link(
+        '<i class="fas fa-plus"></i> ' . __('Add'),
+        ['action' => 'add'],
+        ['class' => 'btn btn-success', 'escape' => false]
+    ) ?>
+</div>
+<?php $this->end(); ?>
+
 <table class="table table-striped">
     <thead>
     <tr>
