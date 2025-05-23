@@ -23,6 +23,54 @@
 </div>
 <?php $this->end(); ?>
 
+<div class="mb-4">
+    <div class="card">
+        <div class="card-body">
+            <?php echo $this->Form->create(null, ['type' => 'get', 'valueSources' => 'query']); ?>
+            <div class="row">
+                <div class="col-md-9 mb-3">
+                    <?php echo $this->Form->control('cercatesto', [
+                        'label' => 'Search',
+                        'class' => 'form-control',
+                        'placeholder' => 'Search in title or body'
+                    ]); ?>
+                    
+                    <div class="mt-2">
+                        <label class="d-block">Filter by</label>
+                        <div class="d-flex align-items-center">
+                            <?php
+                            echo $this->Form->radio('filtratipo', 
+                                [
+                                    'all' => 'All',
+                                    'inbox' => 'Inbox',
+                                    'sent' => 'Sent'
+                                ], 
+                                [
+                                    'value' => $radiochoise ?? 'all',
+                                    'hiddenField' => false,
+                                    'label' => true,
+                                    'class' => 'me-1 mx-1',
+                                    'templates' => [
+                                        'radioWrapper' => '<div class="form-check form-check-inline">{{input}}{{label}}</div>',
+                                        'label' => '<label class="form-check-label" {{attrs}}>{{text}}</label>',
+                                        'input' => '<input type="radio" class="form-check-input" {{attrs}}/>',
+                                    ]
+                                ]
+                            );
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 d-flex align-items-end justify-content-start">
+                    <?php echo $this->Form->button('Filter', ['type' => 'submit', 'class' => 'btn btn-sm btn-primary me-2']); ?>
+                    <?php echo $this->Html->link('Reset', ['action' => 'index'], ['class' => 'btn btn-sm btn-outline-secondary']); ?>
+                </div>
+            </div>
+            <?php echo $this->Form->end(); ?>
+        </div>
+    </div>
+</div>
+
 <table class="table table-striped">
     <thead>
     <tr>

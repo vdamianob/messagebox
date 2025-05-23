@@ -7,6 +7,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Search\Manager;
 
 /**
  * Messages Model
@@ -64,6 +65,7 @@ class MessagesTable extends Table
             'foreignKey' => 'reply_to_id',
             'joinType' => 'LEFT',
         ]);
+        $this->addBehavior('Search.Search');
     }
 
     /**
@@ -126,5 +128,45 @@ class MessagesTable extends Table
         $rules->add($rules->existsIn('reply_to_id', 'ParentMessage'), ['errorField' => 'reply_to_id']);
 
         return $rules;
+    }
+
+    public function searchManager(): Manager
+    {
+        $search = $this->behaviors()->Search->searchManager();
+
+        $search 
+        ->add('cercatesto', 'Search.Like', [
+            'before' => true,
+            'after' => true,
+            'fieldMode' => 'OR',
+            'comparison' => 'LIKE',
+            'wildcardAny' => '*',
+            'wildcardOne' => '?',
+            'fields' => ['title', 'body'],
+        ])
+        ->add('filtratipo', 'Search.Callback', [
+        'callback' => function (Query $query, array $args, $manager) {
+            if (!isset($args['filtratipo'])) {
+                return;
+            }
+            $userId = $query->getOptions()['userId'] ?? null;
+            switch ($args['filtratipo']) {
+                case 'inbox':
+                    // inbox
+                    $query->where(['Messages.receiver_id' => $userId]);
+                    break;
+
+                case 'sent':
+                    // sent
+                    $query->where(['Messages.sender_id' => $userId]);
+                    break;
+
+                case 'all':
+                default:
+                    break;
+            }
+        }
+    ]);
+        return $search;
     }
 }

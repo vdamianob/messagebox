@@ -27,7 +27,8 @@ class MessagesController extends AppController
         // $messages = $this->paginate($this->Messages);
         
         $userId = $this->request->getAttribute("identity")->id;
-        $query = $this->Messages->find()
+        $query = $this->Messages
+            ->find('search', ['search' => $this->request->getQueryParams(), 'userId' => $userId])
             ->contain(['Sender', 'Receiver'])
             ->where([
                 'OR' => [
@@ -45,7 +46,9 @@ class MessagesController extends AppController
             //print_r($message->sender->username);
         }
 
-        $this->set(compact('messages'));
+        $radiochoise = $this->request->getQuery('filtratipo');
+        
+        $this->set(compact('messages','radiochoise'));
     }
 
     /**
